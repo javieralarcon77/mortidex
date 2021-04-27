@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-import PeopleScreen from '../screens/PeopleScreen';
+import CharacterScreen from '../screens/CharacterScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export const Navigate = () => {
             }}
         >
             <Stack.Screen name="HomeScreen" component={ HomeScreen }/>
-            <Stack.Screen name="PeopleScreen" component={ PeopleScreen }/>
+            <Stack.Screen name="CharacterScreen" component={ CharacterScreen }/>
         </Stack.Navigator>
     )
 }

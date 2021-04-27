@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const PeopleScreen = () => {
+const CharacterScreen = () => {
     return (
         <View>
             <Text></Text>
@@ -9,4 +9,4 @@ const PeopleScreen = () => {
     )
 }
 
-export default PeopleScreen
+export default CharacterScreen

@@ -1,14 +1,68 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { Text, Image, FlatList, View, ActivityIndicator } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import Icon from "react-native-vector-icons/Ionicons";
+import { styles } from '../theme/appTheme';
+import { useCharacterPaginated } from '../hooks/useCharacterPaginated';
+import { Character } from '../interfaces/appInterfaces';
 
 const HomeScreen = () => {
+
+    const { top } = useSafeAreaInsets();
+    const { characters, isLoading, loadMortys } = useCharacterPaginated();
+
+
+    const _renderCharacter = (item:Character) => {
+        return (
+            <View>
+                <Image
+                    source={{ uri: item.image }}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Text>{ item.name }</Text>
+            </View>
+        )
+    }
+
+    const _renderHeaderList = () => {
+        return (
+            <Text style={{
+                ...styles.title,
+                ...styles.globalMargin,
+                marginTop: top + 20,
+            }}>MortiDex</Text>
+        )
+    }
+
+    const _renderFooterList = () => {
+        return (
+            isLoading 
+            ? <ActivityIndicator size={ 30 } color="grey"/>
+            : <></>
+        )
+    }
+
     return (
-        <View>
-            <Text>Home Screen</Text>
-            <Icon name="star-outline" size={ 30} color="grey"/>
-        </View>
+        <>
+            <Image
+                source={ require('../assets/rick-face.png') }
+                style={ styles.backgroundScreen }
+            />
+            
+
+            <FlatList
+                ListHeaderComponent={ _renderHeaderList }
+                data={ characters }
+                keyExtractor={ (item) => item.id.toString() }
+                renderItem={ ({ item }) => _renderCharacter(item) }
+                showsVerticalScrollIndicator={ false }
+                ListFooterComponent={ _renderFooterList }
+                
+                //infinite scroll
+                onEndReached={ loadMortys }
+                onEndReachedThreshold={ 0.4 }
+            />
+        </>
     )
 }
 
