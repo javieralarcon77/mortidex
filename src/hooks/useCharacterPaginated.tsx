@@ -11,6 +11,9 @@ export const useCharacterPaginated = () => {
     const nextPageUrl = useRef('https://rickandmortyapi.com/api/character');
     
     const loadMortys = async () => {
+        if(nextPageUrl.current === null)
+            return;
+
         setIsLoading(true);
         const resp = await mortyApi.get<CharacterPaginatedResponse>(nextPageUrl.current);
 

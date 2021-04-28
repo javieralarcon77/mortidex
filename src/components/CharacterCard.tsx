@@ -5,6 +5,7 @@ import { Character } from '../interfaces/appInterfaces';
 import { FadeInImage } from './FadeInImage';
 import { useState, useEffect, useRef } from 'react';
 import ImageColors from "react-native-image-colors"
+import { useNavigation } from '@react-navigation/core';
 
 interface Props{
     character:Character;
@@ -13,6 +14,8 @@ interface Props{
 const windowWidth = Dimensions.get('screen').width;
 
 const CharacterCard = ({ character }:Props) => {
+
+    const navigation = useNavigation();
 
     const [bgColor, setBgColor] = useState('grey');
     const isMounted = useRef(true);
@@ -31,6 +34,13 @@ const CharacterCard = ({ character }:Props) => {
             setBgColor( color );
     }
 
+    const goToCharacter = () => {
+        navigation.navigate('CharacterScreen',{ 
+            character: character,
+            color: bgColor
+         })
+    }
+
     useEffect(() => {
         if(character)
             getColorBackground( character.image );
@@ -43,6 +53,7 @@ const CharacterCard = ({ character }:Props) => {
     return (
         <TouchableOpacity
             activeOpacity={ 0.9 }
+            onPress={ goToCharacter }
         >
             <View style={{
                 ...cardStyles.cardContainer,

@@ -3,8 +3,17 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import CharacterScreen from '../screens/CharacterScreen';
+import { Character } from '../interfaces/appInterfaces';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+    HomeScreen:undefined,
+    CharacterScreen: {
+        character:Character,
+        color:string,
+    }
+}
+
+const Stack = createStackNavigator<RootStackParams>();
 
 export const Navigate = () => {
     return (
