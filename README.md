@@ -22,12 +22,14 @@ Ejecutar npm para instalar las dependendencias
 [RICK AND MORTY API](https://rickandmortyapi.com/)
 
 ## Screenshots
-![Home de la aplicacion](https://raw.githubusercontent.com/javieralarcon77/mortidex/main/screenshots/home.png)
 Home
+
 <img src="/screenshots/home.png" alt="Home de la aplicacion" width="200"/>
 
 Personaje
+
 <img src="/screenshots/character.png" alt="Pantalla de personaje" width="200"/>
 
 Buscador
+
 <img src="/screenshots/search.png" alt="Pantalla de busqueda" width="200"/>
