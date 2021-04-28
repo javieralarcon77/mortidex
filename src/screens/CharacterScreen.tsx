@@ -1,10 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
-import { View, Text, StyleSheet,TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet,TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { FadeInImage } from '../components/FadeInImage'
 import { RootStackParams } from '../navigate/Navigate'
+import useCharacterEpisodies from '../hooks/useCharacterEpisodies';
+import CharacterDetails from '../components/CharacterDetails'
 
 interface Props extends StackScreenProps<RootStackParams, 'CharacterScreen'>{
 
@@ -17,8 +19,10 @@ const CharacterScreen = ({ route, navigation }:Props) => {
 
     const { top }= useSafeAreaInsets();
 
+    const { isLoading, episodes } = useCharacterEpisodies( character );
+
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <View style={{
                 ...myStyles.headerContainer,
                 backgroundColor: color,
@@ -52,8 +56,19 @@ const CharacterScreen = ({ route, navigation }:Props) => {
                     uri={ image }
                     style={ myStyles.characterImage }
                 />
-
             </View>
+            
+            { /** detalles y loading */ }
+            {
+                isLoading
+                ? ( <View style={ myStyles.loadingIndicator }>
+                        <ActivityIndicator
+                            color={ color }
+                            size={ 50 }
+                        />
+                    </View>
+                ) : <CharacterDetails character={ character } episodes={ episodes }/>
+            }
         </View>
     )
 }
@@ -89,6 +104,12 @@ const myStyles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         borderRadius: 250,
+    },
+    loadingIndicator:{
+        flex: 1,
+        justifyContent:'center',
+        alignItems:'center',
+
     }
 });
 
