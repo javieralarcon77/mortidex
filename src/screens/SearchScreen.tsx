@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, FlatList, Dimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useCharacterSearch } from '../hooks/useCharacterSearch';
@@ -12,7 +12,9 @@ const screenWidth = Dimensions.get('window').width;
 
 const SearchScreen = () => {
 
-    const { isLoading, characters, loadCharacters } =  useCharacterSearch('rick');
+    const [search, setSearch] = useState("");
+
+    const { isLoading, characters, loadCharacters } =  useCharacterSearch( search );
 
     const { top } = useSafeAreaInsets();
 
@@ -23,25 +25,15 @@ const SearchScreen = () => {
                 ...styles.globalMargin,
                 marginTop: top + 60,
                 marginBottom: 20,
-            }}>MortiDex</Text>
+            }}>{ search }</Text>
         )
     }
 
-    const ListCharacter = () => {
+    const _renderFooterList = () => {
         return (
-            <FlatList
-                data={ characters }
-                keyExtractor={ (item , index) => item.id.toString() + index }
-                renderItem={ ({ item }) => <CharacterCard character={ item } /> }
-                
-                numColumns={ 2 }
-                showsVerticalScrollIndicator={ false }
-                ListHeaderComponent={ _renderHeaderList }
-                
-                //infinite scroll
-                onEndReached={ loadCharacters }
-                onEndReachedThreshold={ 0.4 }
-            />
+            isLoading 
+            ? <LoadingComponent />
+            : <></>
         )
     }
 
@@ -50,21 +42,29 @@ const SearchScreen = () => {
             flex: 1, 
             paddingTop: top + 10,
         }}>            
-            <SearchInput style={{
-                position: 'absolute',
-                zIndex: 999,
-                width: screenWidth - 40,
-                top: top + 10,
-                left: 20,
-            }}/>
+            <SearchInput 
+                style={{
+                    ...styles.searchPosition,
+                    width: screenWidth - 40,
+                    top: top + 10,                    
+                }}
+                onChange={ setSearch }
+            />
             
-            {
-                isLoading 
-                ? <LoadingComponent />
-                : <ListCharacter />
-            }
-            
-            
+            <FlatList
+                data={ characters }
+                keyExtractor={ (item , index) => item.id.toString() + index }
+                renderItem={ ({ item }) => <CharacterCard character={ item } /> }
+                
+                numColumns={ 2 }
+                showsVerticalScrollIndicator={ false }
+                ListHeaderComponent={ _renderHeaderList }
+                ListFooterComponent={ _renderFooterList }
+                
+                //infinite scroll
+                onEndReached={ loadCharacters }
+                onEndReachedThreshold={ 0.4 }
+            />
         </View>
     )
 }

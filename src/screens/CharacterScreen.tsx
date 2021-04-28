@@ -4,7 +4,7 @@ import { View, Text, StyleSheet,TouchableOpacity, Image, FlatList, ActivityIndic
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { FadeInImage } from '../components/FadeInImage'
-import { RootStackParams } from '../navigate/Navigate'
+import { RootStackParams } from '../navigate/HomeNavigate'
 import useCharacterEpisodies from '../hooks/useCharacterEpisodies';
 import CharacterDetails from '../components/CharacterDetails'
 
@@ -35,7 +35,7 @@ const CharacterScreen = ({ route, navigation }:Props) => {
                         ...myStyles.backButton,
                         top: top + 2,
                     } }
-                    onPress={ () => navigation.goBack()  }
+                    onPress={ () => navigation.pop()  }
                 >
                     <Icon  name="arrow-back-outline" color="white" size={ 35 }/>
                 </TouchableOpacity>

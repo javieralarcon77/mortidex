@@ -4,6 +4,7 @@ export const styles = StyleSheet.create({
     globalMargin: {
         marginHorizontal:20
     },
+    
     backgroundScreen:{
         position:'absolute',
         top: -50,
@@ -17,8 +18,12 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     loadingContainer:{
-        flex:1,
         justifyContent:'center',
         alignItems:'center',
+    },
+    searchPosition:{
+        position: 'absolute',
+        zIndex: 999,
+        left: 20,
     }
 });

@@ -30,7 +30,7 @@ const CharacterCard = ({ character }:Props) => {
                 color = colors.average;
         }catch(e){}
         
-        if(isMounted)
+        if(isMounted.current)
             setBgColor( color );
     }
 

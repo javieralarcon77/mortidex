@@ -4,13 +4,18 @@ import { CharacterPaginatedResponse, Character } from '../interfaces/appInterfac
 
 export const useCharacterSearch = (search:string) => {
 
-    const [isLoading, setIsLoading] = useState(true);
+    const isMounted = useRef(true);
+
+    const [isLoading, setIsLoading] = useState( false );
 
     const [characters, setCharacters] = useState<Character[]>([]);
     
     const nextPageUrl = useRef('');
 
     const searchCharacters = () => {
+        setCharacters([]);
+        if(search === '') return;
+
         nextPageUrl.current = 'https://rickandmortyapi.com/api/character/?name=' + search;
         loadCharacters();
     }
@@ -20,18 +25,30 @@ export const useCharacterSearch = (search:string) => {
             return;
 
         setIsLoading(true);
-        const resp = await mortyApi.get<CharacterPaginatedResponse>(nextPageUrl.current);
+        try{
+            const resp = await mortyApi.get<CharacterPaginatedResponse>(nextPageUrl.current);
 
-        const data = resp.data;
-        nextPageUrl.current = data.info.next;
+            const data = resp.data;
+            nextPageUrl.current = data.info.next;
+            if(isMounted.current){
+                setCharacters( [ ...characters, ...data.results ] );
+            }
+        }catch(e){
+
+        }
         
-        setCharacters( [ ...characters, ...data.results ] );
         setIsLoading(false);
     }
 
     useEffect(()=>{
+        return ()=>{
+            isMounted.current = false;
+        }
+    },[])
+
+    useEffect(()=>{
         searchCharacters();
-    },[]);
+    },[ search ]);
 
     return {
         isLoading,

@@ -26,7 +26,11 @@ const HomeScreen = () => {
     const _renderFooterList = () => {
         return (
             isLoading 
-            ? <ActivityIndicator size={ 30 } color="grey"/>
+            ? (
+                <View style={{ marginBottom: 100 }}>
+                    <ActivityIndicator size={ 30 } color="grey"/>
+                </View>
+            )
             : <></>
         )
     }
