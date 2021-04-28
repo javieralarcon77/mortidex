@@ -25,6 +25,7 @@ export interface Character {
     episode:  string[];
     url:      string;
     created:  string;
+    color?:   string;
 }
 
 export enum Gender {

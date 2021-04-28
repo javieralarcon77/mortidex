@@ -1,28 +1,16 @@
 import React from 'react'
-import { Text, Image, FlatList, View, ActivityIndicator } from 'react-native';
+import { Text, Image, FlatList, ActivityIndicator, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { styles } from '../theme/appTheme';
 import { useCharacterPaginated } from '../hooks/useCharacterPaginated';
-import { Character } from '../interfaces/appInterfaces';
+import CharacterCard from '../components/CharacterCard';
+
 
 const HomeScreen = () => {
 
     const { top } = useSafeAreaInsets();
     const { characters, isLoading, loadMortys } = useCharacterPaginated();
-
-
-    const _renderCharacter = (item:Character) => {
-        return (
-            <View>
-                <Image
-                    source={{ uri: item.image }}
-                    style={{ width: 100, height: 100 }}
-                />
-                <Text>{ item.name }</Text>
-            </View>
-        )
-    }
 
     const _renderHeaderList = () => {
         return (
@@ -30,6 +18,7 @@ const HomeScreen = () => {
                 ...styles.title,
                 ...styles.globalMargin,
                 marginTop: top + 20,
+                marginBottom: 20,
             }}>MortiDex</Text>
         )
     }
@@ -50,18 +39,21 @@ const HomeScreen = () => {
             />
             
 
-            <FlatList
-                ListHeaderComponent={ _renderHeaderList }
-                data={ characters }
-                keyExtractor={ (item) => item.id.toString() }
-                renderItem={ ({ item }) => _renderCharacter(item) }
-                showsVerticalScrollIndicator={ false }
-                ListFooterComponent={ _renderFooterList }
-                
-                //infinite scroll
-                onEndReached={ loadMortys }
-                onEndReachedThreshold={ 0.4 }
-            />
+            <View style={{ alignItems:'center' }}>
+                <FlatList
+                    ListHeaderComponent={ _renderHeaderList }
+                    data={ characters }
+                    keyExtractor={ (item) => item.id.toString() }
+                    numColumns={ 2 }
+                    renderItem={ ({ item }) => <CharacterCard character={ item } /> }
+                    showsVerticalScrollIndicator={ false }
+                    ListFooterComponent={ _renderFooterList }
+                    
+                    //infinite scroll
+                    onEndReached={ loadMortys }
+                    onEndReachedThreshold={ 0.4 }
+                />
+            </View>
         </>
     )
 }
